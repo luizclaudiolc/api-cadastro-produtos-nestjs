@@ -11,7 +11,7 @@ import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { ProdutosService } from './produtos.service';
 
-@Controller('produtos')
+@Controller(`${process.env.API_VERSION}/produtos`)
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
@@ -25,10 +25,10 @@ export class ProdutosController {
     return this.produtosService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.produtosService.findOne(id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.produtosService.findOne(id);
+  // }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {

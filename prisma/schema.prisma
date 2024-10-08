@@ -13,10 +13,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id         String    @id @default(uuid())
+  first_name String
+  last_name  String?
+  position   String
+  email      String    @unique
+  password   String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime  @default(now())
+  produtos   Produto[]
+
+  @@map("users")
+}
+
 model Produto {
-  id    String @id @default(uuid())
-  cod   String
-  name  String
-  value String
-  qtd   String
+  id         String   @id @default(uuid())
+  cod        String
+  name       String
+  value      String
+  qtd        String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@map("produtos")
 }
