@@ -6,10 +6,14 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { compareSync, hashSync } from 'bcrypt';
 import { PrismaService } from 'src/prisma-client/prisma-client.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async signUp(data: CreateUserDto) {
     const existingUser = await this.prisma.user.findUnique({
@@ -44,6 +48,7 @@ export class UserService {
     if (!validPassword)
       throw new UnauthorizedException('Usuário ou senha incorretos');
 
-    return existingUser;
+    const payload = { username: existingUser.email, sub: existingUser.id };
+    return { accessToken: this.jwtService.sign(payload) };
   }
 }

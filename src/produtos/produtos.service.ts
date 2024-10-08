@@ -5,7 +5,7 @@ import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 
 export interface IProduto {
-  id: string;
+  id?: string;
   cod: string;
   name: string;
   value: string;
@@ -16,14 +16,29 @@ export interface IProduto {
 export class ProdutosService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createProdutoDto: CreateProdutoDto): Promise<IProduto> {
+  async create(data: CreateProdutoDto, userId: string): Promise<IProduto> {
     return this.prisma.produto.create({
-      data: createProdutoDto,
+      data: {
+        ...data,
+        user: {
+          connect: { id: userId },
+        },
+      },
     });
   }
 
   async findAll(): Promise<IProduto[]> {
-    return this.prisma.produto.findMany();
+    return this.prisma.produto.findMany({
+      select: {
+        cod: true,
+        name: true,
+        value: true,
+        qtd: true,
+        user: {
+          select: { first_name: true, position: true },
+        },
+      },
+    });
   }
 
   async update(id: string, updateProdutoDto: UpdateProdutoDto) {
