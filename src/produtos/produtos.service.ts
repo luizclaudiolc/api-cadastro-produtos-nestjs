@@ -1,63 +1,77 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateProdutoDto } from './dto/create-produto.dto';
-import { UpdateProdutoDto } from './dto/update-produto.dto';
-import { log } from 'console';
+import { PrismaService } from 'src/prisma-client/prisma-client.service';
+import { Prisma } from '@prisma/client';
+
+export interface IProduto {
+  id: string;
+  cod: string;
+  name: string;
+  value: string;
+  qtd: string;
+}
 
 @Injectable()
 export class ProdutosService {
-  private produtos: CreateProdutoDto[] = [];
+  constructor(private prisma: PrismaService) {}
 
-  create(createProdutoDto: CreateProdutoDto) {
-    if (createProdutoDto.id)
-      createProdutoDto.id = String(`abc-${Math.floor(Math.random() * 500)}`);
-    log(createProdutoDto.id);
-    this.produtos.push(createProdutoDto);
-    return this.produtos;
+  async create(createProdutoDto: Prisma.ProdutoCreateInput): Promise<IProduto> {
+    return this.prisma.produto.create({
+      data: createProdutoDto,
+    });
   }
 
-  findAll() {
-    return this.produtos;
+  async findAll(): Promise<IProduto[]> {
+    return this.prisma.produto.findMany();
   }
 
-  findOne(_id: string) {
-    const index = this.produtos.findIndex(({ id }) => id === _id);
-    if (index === -1) {
+  async update(id: string, updateProdutoDto: Prisma.ProdutoUpdateInput) {
+    const produtoExiste = await this.prisma.produto.findUnique({
+      where: { id },
+    });
+
+    if (!produtoExiste) {
       throw new HttpException(
         {
-          status: HttpStatus.NOT_FOUND,
-          error: `Produto com id: ${_id} não encontrado!`,
+          status: HttpStatus.BAD_REQUEST,
+          error: `Produto não encontrado!`,
         },
-        HttpStatus.NOT_FOUND,
+        HttpStatus.BAD_REQUEST,
         {
-          cause: 'error',
+          cause: `Produto não encontrado!`,
         },
       );
     }
 
-    return this.produtos[index];
+    const produto = await this.prisma.produto.update({
+      where: { id },
+      data: updateProdutoDto,
+    });
+
+    return produto;
   }
 
-  update(id: string, updateProdutoDto: UpdateProdutoDto) {
-    const index = this.produtos.findIndex((produto) => produto.id === id);
-    if (index === -1) {
+  async remove(id: string) {
+    const produtoExiste = await this.prisma.produto.findUnique({
+      where: { id },
+    });
+
+    if (!produtoExiste) {
       throw new HttpException(
         {
-          status: HttpStatus.NOT_FOUND,
-          error: `Produto com id: ${id} não encontrado!`,
+          status: HttpStatus.BAD_REQUEST,
+          error: `Produto não encontrado!`,
         },
-        HttpStatus.NOT_FOUND,
+        HttpStatus.BAD_REQUEST,
         {
-          cause: 'error',
+          cause: `Produto não encontrado!`,
         },
       );
     }
 
-    this.produtos[index] = { ...this.produtos[index], ...updateProdutoDto };
-    return this.produtos[index];
-  }
+    const produto = await this.prisma.produto.delete({
+      where: { id },
+    });
 
-  remove(_id: string) {
-    this.produtos = this.produtos.filter(({ id }) => id !== _id);
-    return this.produtos;
+    return produto;
   }
 }

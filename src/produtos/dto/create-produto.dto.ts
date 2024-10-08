@@ -1,7 +1,8 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateProdutoDto {
   @IsString()
+  @IsOptional()
   id?: string;
 
   @IsString()
@@ -10,8 +11,8 @@ export class CreateProdutoDto {
   @IsString()
   name: string;
 
-  @IsNumber()
-  value: number;
+  @IsString()
+  value: string;
 
   @IsString()
   qtd: string;
