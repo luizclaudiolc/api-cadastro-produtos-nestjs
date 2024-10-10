@@ -14,9 +14,10 @@ import { ProdutosService } from './produtos.service';
 import { JwtAuthGuard } from 'src/auth/user/jwt/jwt-auth-guard';
 import { CurrentUser } from 'src/auth/user/dto/current-user.decorator';
 import { CurrentUserDto } from 'src/auth/user/dto/current-user.tdo';
-import { log } from 'console';
+import { Roles } from 'src/auth/user/roles/roles.decorator';
 
 @UseGuards(JwtAuthGuard)
+@Roles('ADMIN', 'DEFAULT')
 @Controller(`${process.env.API_VERSION}/produtos`)
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
@@ -24,21 +25,20 @@ export class ProdutosController {
   @Post()
   create(
     @Body() createProdutoDto: CreateProdutoDto,
-    @CurrentUser() user: CurrentUserDto,
+    @CurrentUser() { userId }: CurrentUserDto,
   ) {
-    return this.produtosService.create(createProdutoDto, user.userId);
+    return this.produtosService.create(createProdutoDto, userId);
   }
 
   @Get()
-  findAll(@CurrentUser() user: CurrentUserDto) {
-    log(user);
+  findAll() {
     return this.produtosService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.produtosService.findOne(id);
-  // }
+  @Get(':id')
+  findAllByUserId(@Param('id') userId: string) {
+    return this.produtosService.findAllByUserId(userId);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {

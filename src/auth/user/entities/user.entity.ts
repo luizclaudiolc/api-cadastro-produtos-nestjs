@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { $Enums, Prisma } from '@prisma/client';
 
 export class User implements Prisma.UserUncheckedCreateInput {
   id?: string;
@@ -11,4 +11,5 @@ export class User implements Prisma.UserUncheckedCreateInput {
   updated_at?: string | Date;
   deleted_at?: string | Date;
   produtos?: Prisma.ProdutoUncheckedCreateNestedManyWithoutUserInput;
+  role?: $Enums.UserRole;
 }

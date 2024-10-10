@@ -18,7 +18,7 @@ import { JwtStrategy } from './jwt/jwt.strategy';
       }),
     }),
   ],
-  exports: [JwtStrategy],
+  exports: [JwtModule, JwtStrategy],
   controllers: [UserController],
   providers: [UserService, PrismaService, JwtStrategy],
 })

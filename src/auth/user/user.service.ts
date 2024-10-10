@@ -26,12 +26,12 @@ export class UserService {
 
     data.password = hashSync(data.password, +process.env.SALT_HASH);
 
-    const { first_name, last_name, position, email } =
+    const { first_name, last_name, position, email, role } =
       await this.prisma.user.create({
-        data: data,
+        data,
       });
 
-    return { first_name, last_name, position, email };
+    return { first_name, last_name, position, email, role };
   }
 
   async signIn(data: { email: string; password: string }) {
@@ -48,7 +48,11 @@ export class UserService {
     if (!validPassword)
       throw new UnauthorizedException('Usuário ou senha incorretos');
 
-    const payload = { username: existingUser.email, sub: existingUser.id };
+    const payload = {
+      username: existingUser.email,
+      sub: existingUser.id,
+      role: [existingUser.role],
+    };
     return { accessToken: this.jwtService.sign(payload) };
   }
 }

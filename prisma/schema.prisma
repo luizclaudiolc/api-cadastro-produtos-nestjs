@@ -24,6 +24,7 @@ model User {
   updated_at DateTime  @updatedAt
   deleted_at DateTime  @default(now())
   produtos   Produto[]
+  role       UserRole  @default(DEFAULT)
 
   @@map("users")
 }
@@ -40,4 +41,9 @@ model Produto {
   user       User     @relation(fields: [userId], references: [id])
 
   @@map("produtos")
+}
+
+enum UserRole {
+  ADMIN
+  DEFAULT
 }

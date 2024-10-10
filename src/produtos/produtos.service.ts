@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma-client/prisma-client.service';
-import { Prisma } from '@prisma/client';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 
@@ -41,6 +40,35 @@ export class ProdutosService {
     });
   }
 
+  async findAllByUserId(userId: string): Promise<IProduto[]> {
+    const productsForUser = await this.prisma.produto.findFirst({
+      where: { userId },
+    });
+
+    if (!productsForUser) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: `Usuário não encontrado!`,
+        },
+        HttpStatus.NOT_FOUND,
+        {
+          cause: `Usário não encontrado!`,
+        },
+      );
+    }
+
+    return this.prisma.produto.findMany({
+      where: { userId },
+      select: {
+        cod: true,
+        name: true,
+        value: true,
+        qtd: true,
+      },
+    });
+  }
+
   async update(id: string, updateProdutoDto: UpdateProdutoDto) {
     const produtoExiste = await this.prisma.produto.findUnique({
       where: { id },
@@ -49,10 +77,10 @@ export class ProdutosService {
     if (!produtoExiste) {
       throw new HttpException(
         {
-          status: HttpStatus.BAD_REQUEST,
+          status: HttpStatus.NOT_FOUND,
           error: `Produto não encontrado!`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.NOT_FOUND,
         {
           cause: `Produto não encontrado!`,
         },
@@ -75,10 +103,10 @@ export class ProdutosService {
     if (!produtoExiste) {
       throw new HttpException(
         {
-          status: HttpStatus.BAD_REQUEST,
+          status: HttpStatus.NOT_FOUND,
           error: `Produto não encontrado!`,
         },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.NOT_FOUND,
         {
           cause: `Produto não encontrado!`,
         },
