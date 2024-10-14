@@ -37,9 +37,9 @@ export class UserService {
         this.refreshTokenVersions.delete(userId);
       }
     }
-    console.log(
-      `Limpeza realizada. Tamanho atual do Map: ${this.refreshTokenVersions.size}`,
-    );
+    // console.log(
+    //   `Limpeza realizada. Tamanho atual do Map: ${this.refreshTokenVersions.size}`,
+    // );
   }
 
   private cleanupIfNeeded() {
@@ -53,9 +53,9 @@ export class UserService {
       for (let i = 0; i < entriesToRemove; i++) {
         this.refreshTokenVersions.delete(sortedEntries[i][0]);
       }
-      console.log(
-        `Limpeza baseada em tamanho realizada. Removidos ${entriesToRemove} registros.`,
-      );
+      // console.log(
+      //   `Limpeza baseada em tamanho realizada. Removidos ${entriesToRemove} registros.`,
+      // );
     }
   }
 
@@ -105,12 +105,12 @@ export class UserService {
 
     const accessToken = this.jwtService.sign(
       { ...payload, type: 'access' },
-      { expiresIn: '1m' },
+      { expiresIn: '120s' },
     );
 
     const refreshToken = this.jwtService.sign(
       { ...payload, type: 'refresh' },
-      { expiresIn: '1d' },
+      { expiresIn: '1h' },
     );
 
     return { accessToken, refreshToken };
@@ -152,12 +152,12 @@ export class UserService {
 
       const newAccessToken = this.jwtService.sign(
         { ...newPayload, type: 'access' },
-        { expiresIn: '1m' },
+        { expiresIn: '120s' },
       );
 
       const newRefreshToken = this.jwtService.sign(
         { ...newPayload, type: 'refresh' },
-        { expiresIn: '1d' },
+        { expiresIn: '1h' },
       );
 
       return { accessToken: newAccessToken, refreshToken: newRefreshToken };
