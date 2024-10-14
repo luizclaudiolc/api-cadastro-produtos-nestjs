@@ -15,4 +15,9 @@ export class UserController {
   signIn(@Body() body: { email: string; password: string }) {
     return this.userService.signIn(body);
   }
+
+  @Post('refresh')
+  refreshToken(@Body() body: { refreshToken: string }) {
+    return this.userService.refreshToken(body.refreshToken);
+  }
 }
