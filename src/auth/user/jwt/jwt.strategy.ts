@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload) {
     if (payload.type !== 'access')
-      throw new UnauthorizedException('Invali token type');
+      throw new UnauthorizedException('Invalid token type');
     return {
       userId: payload.sub,
       username: payload.username,

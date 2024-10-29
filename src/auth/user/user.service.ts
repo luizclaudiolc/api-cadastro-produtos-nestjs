@@ -29,7 +29,7 @@ export class UserService {
     this.cleanupExpiredTokens();
   }
 
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_12_HOURS)
   private cleanupExpiredTokens() {
     const now = Date.now();
     for (const [userId, entry] of this.refreshTokenVersions.entries()) {
@@ -113,7 +113,7 @@ export class UserService {
       { expiresIn: '1h' },
     );
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, name: existingUser.first_name };
   }
 
   async refreshToken(refreshToken: string) {
