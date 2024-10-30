@@ -113,7 +113,12 @@ export class UserService {
       { expiresIn: '1h' },
     );
 
-    return { accessToken, refreshToken, name: existingUser.first_name };
+    return {
+      accessToken,
+      refreshToken,
+      name: existingUser.first_name,
+      roles: existingUser.role,
+    };
   }
 
   async refreshToken(refreshToken: string) {
@@ -160,7 +165,11 @@ export class UserService {
         { expiresIn: '1h' },
       );
 
-      return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+      return {
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+        name: user.first_name,
+      };
     } catch (error) {
       throw new UnauthorizedException('Invalid refresh token');
     }
