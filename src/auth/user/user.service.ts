@@ -117,7 +117,8 @@ export class UserService {
       accessToken,
       refreshToken,
       name: existingUser.first_name,
-      roles: existingUser.role,
+      last_name: existingUser.last_name,
+      role: existingUser.role,
     };
   }
 
@@ -169,6 +170,7 @@ export class UserService {
         accessToken: newAccessToken,
         refreshToken: newRefreshToken,
         name: user.first_name,
+        last_name: user.last_name,
         role: user.role,
       };
     } catch (error) {

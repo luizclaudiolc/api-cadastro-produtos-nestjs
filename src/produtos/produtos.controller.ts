@@ -25,6 +25,7 @@ export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   create(
     @Body() createProdutoDto: CreateProdutoDto,
     @CurrentUser() { userId }: CurrentUserDto,
@@ -33,16 +34,19 @@ export class ProdutosController {
   }
 
   @Get()
+  @HttpCode(HttpStatus.OK)
   findAll() {
     return this.produtosService.findAll();
   }
 
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   findAllByUserId(@Param('id') userId: string) {
     return this.produtosService.findAllByUserId(userId);
   }
 
   @Patch(':id')
+  @HttpCode(HttpStatus.OK)
   update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
     return this.produtosService.update(id, updateProdutoDto);
   }
