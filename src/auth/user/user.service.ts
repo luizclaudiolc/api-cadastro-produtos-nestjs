@@ -169,6 +169,7 @@ export class UserService {
         accessToken: newAccessToken,
         refreshToken: newRefreshToken,
         name: user.first_name,
+        role: user.role,
       };
     } catch (error) {
       throw new UnauthorizedException('Invalid refresh token');
