@@ -79,7 +79,13 @@ export class ProdutosService {
         name: true,
         qtd: true,
         value: true,
-        user: true,
+        user: {
+          select: {
+            first_name: true,
+            last_name: true,
+            position: true,
+          },
+        },
       },
     });
 
