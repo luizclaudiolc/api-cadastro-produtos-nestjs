@@ -29,6 +29,7 @@ export class ProdutosService {
   async findAll(): Promise<IProduto[]> {
     return this.prisma.produto.findMany({
       select: {
+        id: true,
         cod: true,
         name: true,
         value: true,
