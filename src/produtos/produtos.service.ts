@@ -70,6 +70,22 @@ export class ProdutosService {
     });
   }
 
+  async findOneById(id: string) {
+    const produto = await this.prisma.produto.findUniqueOrThrow({
+      where: { id },
+      select: {
+        id: true,
+        cod: true,
+        name: true,
+        qtd: true,
+        value: true,
+        user: true,
+      },
+    });
+
+    return produto;
+  }
+
   async update(id: string, updateProdutoDto: UpdateProdutoDto) {
     const produtoExiste = await this.prisma.produto.findUnique({
       where: { id },

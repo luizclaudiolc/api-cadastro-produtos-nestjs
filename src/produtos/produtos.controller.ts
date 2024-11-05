@@ -10,13 +10,13 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { CurrentUser } from 'src/auth/user/dto/current-user.decorator';
+import { CurrentUserDto } from 'src/auth/user/dto/current-user.tdo';
+import { JwtAuthGuard } from 'src/auth/user/jwt/jwt-auth-guard';
+import { Roles } from 'src/auth/user/roles/roles.decorator';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { ProdutosService } from './produtos.service';
-import { JwtAuthGuard } from 'src/auth/user/jwt/jwt-auth-guard';
-import { CurrentUser } from 'src/auth/user/dto/current-user.decorator';
-import { CurrentUserDto } from 'src/auth/user/dto/current-user.tdo';
-import { Roles } from 'src/auth/user/roles/roles.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Roles('ADMIN', 'DEFAULT')
@@ -41,8 +41,8 @@ export class ProdutosController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findAllByUserId(@Param('id') userId: string) {
-    return this.produtosService.findAllByUserId(userId);
+  findOneById(@Param('id') id: string) {
+    return this.produtosService.findOneById(id);
   }
 
   @Patch(':id')
