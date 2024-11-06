@@ -47,8 +47,12 @@ export class ProdutosController {
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
-    return this.produtosService.update(id, updateProdutoDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateProdutoDto: UpdateProdutoDto,
+    @CurrentUser() { userId }: CurrentUserDto,
+  ) {
+    return this.produtosService.update(id, updateProdutoDto, userId);
   }
 
   @Delete(':id')

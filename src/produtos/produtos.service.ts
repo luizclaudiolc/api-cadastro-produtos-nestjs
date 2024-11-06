@@ -92,7 +92,8 @@ export class ProdutosService {
     return produto;
   }
 
-  async update(id: string, updateProdutoDto: UpdateProdutoDto) {
+  async update(id: string, updateProdutoDto: UpdateProdutoDto, userId: string) {
+    // Verificar se o produto existe
     const produtoExiste = await this.prisma.produto.findUnique({
       where: { id },
     });
@@ -104,15 +105,16 @@ export class ProdutosService {
           error: `Produto não encontrado!`,
         },
         HttpStatus.NOT_FOUND,
-        {
-          cause: `Produto não encontrado!`,
-        },
       );
     }
 
+    // Atualizar o produto com as novas informações e o ID do usuário que fez a atualização
     const produto = await this.prisma.produto.update({
       where: { id },
-      data: updateProdutoDto,
+      data: {
+        ...updateProdutoDto,
+        user: { connect: { id: userId } }, // Atualiza o ID do usuário que fez a última atualização
+      },
     });
 
     return produto;
