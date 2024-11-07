@@ -101,7 +101,6 @@ export class UserService {
       sub: existingUser.id,
       role: [existingUser.role],
       tokenId,
-      userId,
     };
 
     const accessToken = this.jwtService.sign(
@@ -120,7 +119,6 @@ export class UserService {
       name: existingUser.first_name,
       last_name: existingUser.last_name,
       role: existingUser.role,
-      userId,
     };
   }
 
@@ -156,7 +154,6 @@ export class UserService {
         sub: user.id,
         role: [user.role],
         tokenId: newTokenId,
-        userId: user.id,
       };
 
       const newAccessToken = this.jwtService.sign(
@@ -175,7 +172,6 @@ export class UserService {
         name: user.first_name,
         last_name: user.last_name,
         role: user.role,
-        userId: user.id,
       };
     } catch (error) {
       throw new UnauthorizedException('Invalid refresh token');
