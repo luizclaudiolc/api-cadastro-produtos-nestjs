@@ -74,7 +74,6 @@ export class ProdutosService {
     const produto = await this.prisma.produto.findUniqueOrThrow({
       where: { id },
       select: {
-        id: true,
         cod: true,
         name: true,
         qtd: true,
@@ -93,7 +92,6 @@ export class ProdutosService {
   }
 
   async update(id: string, updateProdutoDto: UpdateProdutoDto, userId: string) {
-    // Verificar se o produto existe
     const produtoExiste = await this.prisma.produto.findUnique({
       where: { id },
     });
@@ -108,12 +106,11 @@ export class ProdutosService {
       );
     }
 
-    // Atualizar o produto com as novas informações e o ID do usuário que fez a atualização
     const produto = await this.prisma.produto.update({
       where: { id },
       data: {
         ...updateProdutoDto,
-        user: { connect: { id: userId } }, // Atualiza o ID do usuário que fez a última atualização
+        user: { connect: { id: userId } },
       },
     });
 
