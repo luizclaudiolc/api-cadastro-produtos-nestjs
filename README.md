@@ -1,73 +1,91 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# API de Cadastro de Produtos com NestJS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto é uma API para cadastro de produtos desenvolvida utilizando o framework NestJS. A API permite operações CRUD (Criar, Ler, Atualizar e Deletar) em produtos, oferecendo uma estrutura escalável e eficiente para gerenciar informações de produtos.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologias Utilizadas
 
-## Description
+- **NestJS**: Framework progressivo para construção de aplicações server-side eficientes e escaláveis.
+- **TypeScript**: Linguagem de programação que adiciona tipagem estática ao JavaScript, proporcionando maior segurança e produtividade no desenvolvimento.
+- **Prisma**: ORM (Object-Relational Mapping) moderno que facilita o acesso ao banco de dados com segurança e eficiência.
+- **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional utilizado para armazenar os dados dos produtos.
+- **PNPM**: Gerenciador de pacotes rápido e eficiente, alternativo ao NPM e Yarn.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Estrutura do Projeto
 
-## Installation
+A estrutura de pastas e arquivos do projeto é organizada da seguinte forma:
+
+- **prisma/**: Contém os arquivos relacionados ao Prisma, incluindo o esquema do banco de dados (`schema.prisma`).
+- **src/**: Diretório principal do código-fonte da aplicação.
+  - **modules/**: Contém os módulos da aplicação, como o módulo de produtos.
+  - **main.ts**: Arquivo de entrada da aplicação.
+- **test/**: Contém os arquivos de teste da aplicação.
+- **.eslintrc.js**: Configuração do ESLint para padronização de código.
+- **.prettierrc**: Configuração do Prettier para formatação de código.
+- **package.json**: Contém as dependências e scripts do projeto.
+- **pnpm-lock.yaml**: Arquivo de lock do PNPM para garantir a consistência das dependências.
+- **tsconfig.json**: Configuração do TypeScript.
+
+## Pré-requisitos
+
+Antes de iniciar, certifique-se de ter instalado em sua máquina:
+
+- **Node.js** (versão 14 ou superior)
+- **PNPM** (para instalar, execute `npm install -g pnpm`)
+- **PostgreSQL** (com uma base de dados configurada)
+
+## Instalação e Execução
+
+Siga os passos abaixo para baixar e executar o projeto:
+
+1. **Clone o repositório**:
+
+   ```bash
+   git clone https://github.com/luizclaudiolc/api-cadastro-produtos-nestjs.git
+
+2. **Acesse o diretório do projeto**:
+
+   ```bash
+   cd api-cadastro-produtos-nestjs
+
+
+3. **Instale as dependências**:
+
+   ```bash
+   pnpm install
+
+4. **Configure as variáveis de ambiente**:
+- Crie um arquivo .env na raiz do projeto e defina as seguintes variáveis:
+
+   ```bash
+   DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco"
+
+- Substitua usuario, senha, localhost e nome_do_banco conforme sua configuração do PostgreSQL.
+
+5. **Execute as migrações do banco de dados**:
+
+   ```bash
+   pnpm prisma migrate dev
+
+6. **Inicie o servidor**:
+
+   ```bash
+   pnpm start:dev
+   
+- A aplicação estará disponível em http://localhost:3000.
+
+## Endpoints Principais
+
+A API disponibiliza os seguintes endpoints para gerenciamento de produtos:
+
+   - POST /produtos: Cria um novo produto.
+   - GET /produtos: Retorna uma lista de produtos.
+   - GET /produtos/:id: Retorna os detalhes de um produto específico.
+   - PATCH /produtos/:id: Atualiza as informações de um produto.
+   - DELETE /produtos/:id: Remove um produto.
+
+## Testes
+
+Para executar os testes, utilize o comando:
 
 ```bash
-$ pnpm install
-```
-
-## Running the app
-
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+   pnpm test
