@@ -10,6 +10,18 @@ Este projeto é uma API para cadastro de produtos desenvolvida utilizando o fram
 - **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional utilizado para armazenar os dados dos produtos.
 - **PNPM**: Gerenciador de pacotes rápido e eficiente, alternativo ao NPM e Yarn.
 
+## Padrões de Projeto Empregados
+
+O projeto adota diversos padrões de projeto e práticas recomendadas para garantir uma arquitetura limpa e sustentável:
+
+- **Arquitetura Modular**: O NestJS promove uma estrutura modular, onde cada funcionalidade é encapsulada em módulos independentes. Isso facilita a manutenção e escalabilidade da aplicação.
+
+- **Injeção de Dependências**: Utilizada para criar módulos independentes e promover a reutilização de código. Cada módulo pode depender de outros módulos sem acoplamento direto, facilitando testes e manutenção
+
+- **Data Transfer Object (DTO)**: Padrão utilizado para transferir dados entre diferentes camadas da aplicação, garantindo a integridade e validação dos dados.
+
+- **Decorators**: O NestJS utiliza extensivamente decorators para adicionar metadados às classes e métodos, melhorando a legibilidade e organização do código.
+
 ## Estrutura do Projeto
 
 A estrutura de pastas e arquivos do projeto é organizada da seguinte forma:
